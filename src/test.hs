@@ -1,19 +1,27 @@
 length' args = sum' [1 | _ <- args]
 
 sum' :: (Num a) => [a] -> a
-sum' [] = 0
-sum' (x:xs) = x + sum' xs
+sum' = foldl1 (+)
 
 max' :: (Ord a) => [a] -> a
-max' [] = error "list cannot be empty"
-max' [x] = x
-max' (x:xs) = if x > maxTail then x else maxTail where maxTail = max' xs
+max' = foldl1 (\acc x -> if x > acc then x else acc)
+
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = foldr (\x acc -> f x : acc) [] xs
 
 take' :: (Num a, Ord a) => a -> [b] -> [b]
 take' _ [] = []
 take' n (x:xs)
 	| n <= 0 = []
 	| otherwise = x:take' (n - 1) xs
+
+qsort :: (Ord a) => [a] -> [a]
+qsort []  = []
+qsort (x:xs) = 
+	let 
+		firstSorted = qsort [f | f <- xs, f < x]
+		secondSorted = qsort [s | s <- xs, s >= x]
+	in firstSorted ++ [x] ++ secondSorted
 
 bmi :: (RealFloat a) => a -> a -> String
 bmi h w
