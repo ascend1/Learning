@@ -1,3 +1,8 @@
+import Data.List as L
+
+uniqueLength :: (Eq a) => [a] -> Int
+uniqueLength = length' . nub
+
 length' args = sum' [1 | _ <- args]
 
 sum' :: (Num a) => [a] -> a
