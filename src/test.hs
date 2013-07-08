@@ -1,12 +1,21 @@
 import Data.List as L
 
+main = do
+    contents <- getContents
+    putStrLn (shortLine contents)
+
+shortLine :: String -> String
+shortLine = unlines . filter (\line -> let len = length' line in (len < 10 && len > 1)) . lines
+
+reverseWords = unwords . reverse . words
+
 uniqueLength :: (Eq a) => [a] -> Int
 uniqueLength = length' . nub
 
 length' args = sum' [1 | _ <- args]
 
 sum' :: (Num a) => [a] -> a
-sum' = foldl1 (+)
+sum' = foldl (+) 0
 
 max' :: (Ord a) => [a] -> a
 max' = foldl1 (\acc x -> if x > acc then x else acc)
