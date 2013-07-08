@@ -1,8 +1,9 @@
+import System.IO
 import Data.List as L
 
 main = do
-    contents <- getContents
-    putStrLn (shortLine contents)
+    tmpLine <- getLine
+    appendFile "work.txt" (tmpLine ++ "\n")
 
 shortLine :: String -> String
 shortLine = unlines . filter (\line -> let len = length' line in (len < 10 && len > 1)) . lines
