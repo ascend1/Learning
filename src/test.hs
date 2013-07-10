@@ -1,10 +1,12 @@
 import System.Environment
 import System.IO
+import System.Random
 import Data.List as L
 
 main = do
-    tmpLine <- getLine
-    appendFile "work.txt" (tmpLine ++ "\n")
+    c <- getChar
+    gen <- getStdGen
+    putStrLn $ take 10 (randomRs ('a','z') gen)
 
 shortLine :: String -> String
 shortLine = unlines . filter (\line -> let len = length' line in (len < 10 && len > 1)) . lines
