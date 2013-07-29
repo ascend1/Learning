@@ -1,17 +1,17 @@
 data Tree a = EmptyTree | Node a Bal (Tree a) (Tree a) deriving (Show, Read, Eq)
 data Bal = Same | Less | More deriving (Show, Read, Ord, Eq)
 
-insert :: (Ord a) => a -> Tree a -> (Bal, Tree a)
-insert a EmptyTree = more $ Node a Same EmptyTree EmptyTree
-insert a (Node x b left right)
+insert :: (Ord a) => a -> (Bal, Tree a) -> (Bal, Tree a)
+insert a (_, EmptyTree) = more $ Node a Same EmptyTree EmptyTree
+insert a (_, (Node x b left right))
     | a == x = same $ Node x b left right
-    | a < x = case insert a left of
+    | a < x = case insert a (Same, left) of
                 (Same, newLeft) -> same $ Node x b newLeft right
                 (More, newLeft) -> case b of
                                     Same -> more $ Node x More newLeft right
                                     Less -> same $ Node x Same newLeft right
                                     More -> rotR x newLeft right
-    | a > x = case insert a right of
+    | a > x = case insert a (Same, right) of
                 (Same, newRight) -> same $ Node x b left newRight
                 (More, newRight) -> case b of
                                     Same -> more $ Node x Less left newRight
@@ -46,3 +46,6 @@ same x = (Same, x)
 
 more :: t -> (Bal, t)
 more x = (More, x)
+
+less :: t -> (Bal, t)
+less x = (Less, x)
