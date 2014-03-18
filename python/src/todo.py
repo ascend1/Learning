@@ -47,6 +47,7 @@ def rm(i):
         f.write(item)
     f.close()
 
+print sys.version
 argc = len(sys.argv)
 if argc == 1:
     print "missing command"
