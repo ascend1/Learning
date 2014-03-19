@@ -50,3 +50,72 @@
           (if (zero? d)
             (list e)
             (let ((f (/ (sqrt d) a 2))) (list (+ e f) (- e f)))))))))
+
+; fact
+(define (fact n) (if (or (negative? n) (zero? n))
+                   "n must be an integer greater than 0"
+                   (if (= n 1)
+                     1
+                     (* n (fact (- n 1))))))
+
+; fact, tail recursive version
+(define (factt n)
+  (facttt n n))
+
+(define (facttt t r)
+  (if (= t 1)
+    r
+    (let ((tt (- t 1)))
+      (facttt tt (* r tt)))))
+
+; my-len
+(define (my-len ls) (if (equal? ls '())
+                      0
+                      (+ 1 (my-len (cdr ls)))))
+
+; sum
+(define (sum ls) (if (equal? ls '())
+                   0
+                   (+ (car ls) (sum (cdr ls)))))
+
+; list-delete
+(define (list-delete ls x) (if (null? ls) 
+                             '()
+                             (let ((t (car ls)))
+                               (if (= t x)
+                                 (list-delete (cdr ls) x)
+                                 (cons t (list-delete (cdr ls) x))))))
+
+; list-index
+(define (list-index ls x idx) 
+  (if (null? ls)
+    #f
+    (let ((t (car ls)))
+      (if (= t x)
+        idx
+        (list-index (cdr ls) x (+ idx 1))))))
+
+; my-reverse, tail recursive version
+(define (my-reverse ls)
+  (my-reverse-rec ls '()))
+
+(define (my-reverse-rec ls templs)
+  (if (null? ls)
+    templs
+    (my-reverse-rec (cdr ls) (cons (car ls) templs))))
+
+; range, named let
+(define (range n)
+  (let loop ((i (- n 1)) (ls '()))
+    (if (= i -1)
+      ls
+      (loop (- i 1) (cons i ls)))))
+
+; string to int, letrec version
+(define (str2i str)
+  (let ((ls (string->list str)))
+    (letrec ((iter (lambda (lst res)
+                     (if (null? lst)
+                       res
+                       (iter (cdr lst) (+ (* res 10) (- (char->integer (car lst)) 48)))))))
+      (iter ls 0))))
