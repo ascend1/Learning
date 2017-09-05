@@ -44,8 +44,9 @@ eval fn_step fn_isFinal s = if fn_isFinal s then s
 
 -- main
 
+-- program: (λx.λk.k x) (λy.y) (λz.z) = λy.y
 prog :: Term
-prog = App (Abs ("x", Var "x")) (Abs ("y", Var "y"))
+prog = App (App (Abs ("x", Abs ("k", App (Var "k") (Var "x")))) (Abs ("y", Var "y"))) (Abs ("z", Var "z"))
 
 main :: IO()
 main = let (t, _, _) = eval step isFinal (prog, [], Mt) in print t
